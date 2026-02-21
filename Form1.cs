@@ -26,6 +26,13 @@ namespace lab2_variant5
         }
 
         // Математические методы
+
+        /// <summary>
+        /// Проверяет, является ли число простым (делится только на 1 и на само себя).
+        /// Алгоритм оптимизирован проверкой делителей до квадратного корня из числа.
+        /// </summary>
+        /// <param name="n">Проверяемое целое число.</param>
+        /// <returns>Возвращает True, если число простое, иначе False.</returns>
         public static bool IsPrime(int n)
         {
             if (n < 2) return false;
@@ -34,6 +41,12 @@ namespace lab2_variant5
             return true;
         }
 
+        /// <summary>
+        /// Проверяет, является ли число совершенным.
+        /// Совершенное число равно сумме всех своих собственных делителей.
+        /// </summary>
+        /// <param name="n">Проверяемое целое число.</param>
+        /// <returns>Возвращает True, если число совершенное, иначе False.</returns>
         public static bool IsPerfect(int n)
         {
             if (n < 6) return false;
@@ -49,12 +62,23 @@ namespace lab2_variant5
             return sum == n;
         }
 
+        /// <summary>
+        /// Проверяет, является ли число палиндромом (читается одинаково слева направо и справа налево).
+        /// </summary>
+        /// <param name="n">Проверяемое целое число.</param>
+        /// <returns>Возвращает True, если число палиндром, иначе False.</returns>
         public static bool IsPalindrome(int n)
         {
             string s = n.ToString();
             return s == new string(s.Reverse().ToArray());
         }
 
+        /// <summary>
+        /// Проверяет, является ли число числом Армстронга.
+        /// Число Армстронга равно сумме своих цифр, возведенных в степень, равную количеству его цифр.
+        /// </summary>
+        /// <param name="n">Проверяемое целое число.</param>
+        /// <returns>Возвращает True, если число Армстронга, иначе False.</returns>
         public static bool IsArmstrong(int n)
         {
             string s = n.ToString();
@@ -64,7 +88,14 @@ namespace lab2_variant5
             return sum == n;
         }
 
-        // Кнопка старт
+        // Управление интерфейсом
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку "Старт".
+        /// Считывает введенные пользователем данные, выполняет их валидацию и запускает алгоритмы визуализации и фильтрации.
+        /// </summary>
+        /// <param name="sender">Источник события (кнопка).</param>
+        /// <param name="e">Аргументы события.</param>
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
             // 1. Анализ одиночного числа
@@ -104,7 +135,11 @@ namespace lab2_variant5
             UpdateList();
         }
 
-        // Рисование графика
+        /// <summary>
+        /// Осуществляет графическую визуализацию числового диапазона в элементе PictureBox.
+        /// Каждое свойство числа отмечается на графике определенным цветом и фигурой (согласно легенде).
+        /// Встроен защитный механизм от переполнения памяти при отрисовке сверхбольших диапазонов.
+        /// </summary>
         private void DrawGraph()
         {
             // 1. Считаем, сколько чисел надо нарисовать
@@ -160,7 +195,10 @@ namespace lab2_variant5
             pictureBox1.Image = bmp;
         }
 
-        // Обновление списка по фильтру
+        /// <summary>
+        /// Обновляет текстовый компонент ListBox результатами анализа.
+        /// Отображает данные с учетом выбранного пользователем фильтра (ComboBox).
+        /// </summary>
         private void UpdateList()
         {
             lstResults.Items.Clear(); // Очищаем старое
@@ -201,13 +239,23 @@ namespace lab2_variant5
             }
         }
 
-        // Список
+        /// <summary>
+        /// Обработчик события изменения выбранного пункта в выпадающем списке (фильтре).
+        /// Вызывает перестроение списка ListBox без повторного пересчета графики.
+        /// </summary>
+        /// <param name="sender">Источник события (ComboBox).</param>
+        /// <param name="e">Аргументы события.</param>
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (endRange > 0) UpdateList();
         }
 
-        // Справка
+        /// <summary>
+        /// Обработчик события нажатия на кнопку "Справка".
+        /// Выводит информационное окно с руководством пользователя и легендой графических обозначений.
+        /// </summary>
+        /// <param name="sender">Источник события (кнопка).</param>
+        /// <param name="e">Аргументы события.</param>
         private void btnHelp_Click(object sender, EventArgs e)
         {
             string helpText =
@@ -225,59 +273,6 @@ namespace lab2_variant5
                 "ВАЖНО: Из-за ограничений Windows, график вмещает около 1500 чисел за раз.";
 
             MessageBox.Show(helpText, "Справка и Легенда", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnRunTests_Click(object sender, EventArgs e)
-        {
-            // Очищаем список для отчета
-            lstResults.Items.Clear();
-            lstResults.Items.Add("ЗАПУСК МОДУЛЬНЫХ ТЕСТОВ");
-            int passed = 0;
-            int failed = 0;
-
-            // Функция-помощник для проверки (аналог Assert)
-            Action<string, bool> AssertTest = (name, condition) => {
-                if (condition)
-                {
-                    lstResults.Items.Add($"[OK] {name}");
-                    passed++;
-                }
-                else
-                {
-                    lstResults.Items.Add($"[FAIL] {name} !!!");
-                    failed++;
-                }
-            };
-
-            try
-            {
-                // 1. Тестируем IsPrime
-                AssertTest("IsPrime(7) == True", IsPrime(7) == true);
-                AssertTest("IsPrime(10) == False", IsPrime(10) == false);
-
-                // 2. Тестируем IsPerfect
-                AssertTest("IsPerfect(6) == True", IsPerfect(6) == true);
-                AssertTest("IsPerfect(28) == True", IsPerfect(28) == true);
-                AssertTest("IsPerfect(10) == False", IsPerfect(10) == false);
-
-                // 3. Тестируем IsPalindrome
-                AssertTest("IsPalindrome(121) == True", IsPalindrome(121) == true);
-                AssertTest("IsPalindrome(123) == False", IsPalindrome(123) == false);
-
-                // 4. Тестируем IsArmstrong
-                AssertTest("IsArmstrong(153) == True", IsArmstrong(153) == true);
-                AssertTest("IsArmstrong(100) == False", IsArmstrong(100) == false);
-
-                lstResults.Items.Add("");
-                lstResults.Items.Add($"ИТОГО: Пройдено: {passed}, Ошибок: {failed}");
-
-                if (failed == 0) MessageBox.Show("Все тесты пройдены успешно!", "Unit Testing OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else MessageBox.Show("Обнаружены ошибки в тестах!", "Unit Testing Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ошибка при выполнении тестов: " + ex.Message);
-            }
         }
     }
 }

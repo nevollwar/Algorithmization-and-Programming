@@ -44,7 +44,6 @@
             btnHelp = new Button();
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
-            btnRunTests = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -206,23 +205,12 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // btnRunTests
-            // 
-            btnRunTests.Location = new Point(1050, 78);
-            btnRunTests.Name = "btnRunTests";
-            btnRunTests.Size = new Size(94, 26);
-            btnRunTests.TabIndex = 16;
-            btnRunTests.Text = "Тесты";
-            btnRunTests.UseVisualStyleBackColor = true;
-            btnRunTests.Click += btnRunTests_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1444, 866);
-            Controls.Add(btnRunTests);
             Controls.Add(panel1);
             Controls.Add(btnHelp);
             Controls.Add(cmbFilter);
@@ -263,6 +251,5 @@
         private Button btnHelp;
         private Panel panel1;
         private PictureBox pictureBox1;
-        private Button btnRunTests;
     }
 }
